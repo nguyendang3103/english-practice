@@ -976,7 +976,7 @@ details[open] > summary .guide-arrow { transform: rotate(180deg); }
    Dữ liệu bài học nằm trong data/en.json và data/ielts_30day_listening.js,
    âm thanh thu sẵn nằm trong audio/ (audio/w*.json, audio/mail/, audio/listen/, audio/ielts/).
    ===================================================================== */
-const APP_BUILD_ID = '20261115-2105';
+const APP_BUILD_ID = '20261115-2215';
 const LANGS = {
   en: { label: 'English', vi: 'Tiếng Anh', short: 'Anh', folder: '', tts: 'en-US', rec: 'en-US', lang: 'en', cjk: false },
 };
@@ -3745,7 +3745,7 @@ function homeView() {
     ...phases.map((ph) => h('div', { class: 'stack' },
       ph.name && h('p', { class: 'label phase' }, cleanPhaseName(ph.name)),
       ...ph.topics.map((t) => topicCard(t, nx, curCat === 'all' ? t.pos : (t.catPos || (filteredTopics.indexOf(t) + 1)))))),
-    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.77 · Cập nhật 15/11/2026')));
+    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.78 · Cập nhật 15/11/2026')));
 }
 
 // ===== HỆ THỐNG LUYỆN THI IELTS 4 KỸ NĂNG (TIẾNG ANH) =====
@@ -10774,8 +10774,7 @@ function lessonView(t, i) {
       );
     } else if (ex.type === 'read' || ex.type === 'read301') {
       const sc = ex.sc;
-      const is301 = code === 'zh' && !!(sc.src && sc.src.includes('301'));
-      const readLabel = is301 ? '📖 Luyện đọc · Giáo trình 301' : (code === 'en' ? '📖 Luyện đọc · Hội thoại tiếng Anh' : (code === 'ja' ? '📖 Luyện đọc · Hội thoại tiếng Nhật' : '📖 Luyện đọc · Hội thoại tiếng Trung'));
+      const readLabel = code === 'en' ? '📖 Luyện đọc · Hội thoại tiếng Anh' : (code === 'ja' ? '📖 Luyện đọc · Hội thoại tiếng Nhật' : '📖 Luyện đọc · Hội thoại tiếng Trung');
       const hasPy = (sc.lines || []).some((ln) => ln && ln.r);
       const pyName = code === 'ja' ? 'Hiragana' : (code === 'en' ? 'Phiên âm' : 'Pinyin');
       const noteText = hasPy
@@ -10784,7 +10783,7 @@ function lessonView(t, i) {
       btn.textContent = 'Đã luyện đọc ➔'; ready = () => true;
       body = h('div', { class: 'stack', style: { gap: '10px' } },
         h('p', { class: 'label' }, readLabel),
-        renderDialogueCard(code, sc.title || (is301 ? 'Bài đọc hội thoại 301' : 'Hội thoại tình huống'), sc.src || (is301 ? '301 Đàm thoại' : ''), sc.lines || [], { defaultShowPy: true, defaultShowVi: false }),
+        renderDialogueCard(code, sc.title || 'Hội thoại tình huống', '', sc.lines || [], { defaultShowPy: true, defaultShowVi: false }),
         h('p', { class: 'small muted', style: { margin: 0 } }, noteText)
       );
     } else if (ex.type === 'gquiz') {
@@ -14364,7 +14363,7 @@ function knowledgeTabView() {
       ]
     : [
         { k: 'gram', label: '📖 Ngữ pháp HSK' },
-        { k: 'read301', label: '💬 Hội thoại & Đọc 301' },
+        { k: 'read301', label: '💬 Hội thoại & Đọc hiểu' },
         { k: 'chiet_tu', label: '🧩 Chiết tự & Mẹo nhớ chữ' },
         { k: 'chars', label: '🈴 Bộ thủ & Bút thuận' }
       ];
@@ -14381,11 +14380,11 @@ function knowledgeTabView() {
         langSwitch()
       )
     ),
-    h('h1', { style: { margin: 0 } }, isJa ? 'Kiến thức & Ngữ pháp JLPT' : 'Kiến thức, Ngữ pháp & Đọc 301'),
+    h('h1', { style: { margin: 0 } }, isJa ? 'Kiến thức & Ngữ pháp JLPT' : 'Kiến thức, Ngữ pháp & Đọc hiểu'),
     h('p', { class: 'muted small', style: { margin: '2px 0 0 0' } },
       isJa
         ? 'Tổng hợp ngữ pháp chuẩn JLPT N5–N1, tra cứu Kanji theo nét và bảng chữ cái Kana.'
-        : 'Tổng hợp ngữ pháp HSK 1–9, hội thoại đọc hiểu 301, chiết tự chữ Hán, 214 bộ thủ Khang Hy và quy tắc bút thuận.'
+        : 'Tổng hợp ngữ pháp HSK 1–9, hội thoại đọc hiểu, chiết tự chữ Hán, 214 bộ thủ Khang Hy và quy tắc bút thuận.'
     )
   );
 
