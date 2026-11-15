@@ -435,7 +435,7 @@ def main() -> None:
     )
     html = replace_exact(
         html,
-        "      ['progress', '📊 Tiến độ 3 tiếng'],\n",
+        "      ['progress', '📊 Tiến độ ngôn ngữ'],\n",
         "      ['progress', '📊 Tiến độ Tiếng Anh'],\n",
         label="pick tab progress label",
     )
