@@ -139,11 +139,11 @@ def main() -> None:
     html = replace_exact(
         html,
         "  const fld = langFolder(code);\n"
-        "  let mailSrc = fill.audio || (tid && !fill.src ? 'audio/mail/' + code + '-' + tid + '.mp3' : null);\n"
+        "  let mailSrc = fill.audio || (code === 'en' && tid && !fill.src ? 'audio/mail/' + code + '-' + tid + '.mp3' : null);\n"
         "  if (mailSrc && mailSrc.startsWith('audio/')) {\n"
         "    mailSrc = fld + '/' + mailSrc;\n"
         "  }",
-        "  let mailSrc = fill.audio || (tid && !fill.src ? 'audio/mail/' + code + '-' + tid + '.mp3' : null);\n"
+        "  let mailSrc = fill.audio || (code === 'en' && tid && !fill.src ? 'audio/mail/' + code + '-' + tid + '.mp3' : null);\n"
         "  if (mailSrc && mailSrc.startsWith('audio/')) {\n"
         "    mailSrc = langPath(code, mailSrc);\n"
         "  }",
@@ -562,8 +562,8 @@ def main() -> None:
 
     # Sanity checks against copied en.json
     topic_count = len(en_data["topics"])
-    if topic_count != 70:
-        raise ValueError(f"Expected 70 topics in en.json, got {topic_count}")
+    if topic_count != 71:
+        raise ValueError(f"Expected 71 topics in en.json, got {topic_count}")
     if "English/" in html:
         leftovers = [line.strip() for line in html.splitlines() if "English/" in line]
         raise ValueError(f"Unconverted 'English/' path references remain: {leftovers[:5]}")

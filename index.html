@@ -976,7 +976,7 @@ details[open] > summary .guide-arrow { transform: rotate(180deg); }
    Dữ liệu bài học nằm trong data/en.json và data/ielts_30day_listening.js,
    âm thanh thu sẵn nằm trong audio/ (audio/w*.json, audio/mail/, audio/listen/, audio/ielts/).
    ===================================================================== */
-const APP_BUILD_ID = '20261115-2215';
+const APP_BUILD_ID = '20261115-2315';
 const LANGS = {
   en: { label: 'English', vi: 'Tiếng Anh', short: 'Anh', folder: '', tts: 'en-US', rec: 'en-US', lang: 'en', cjk: false },
 };
@@ -987,22 +987,22 @@ const langPath = (code, rel) => { const f = langFolder(code); return f ? f + '/'
 const KEY = 'noiduoc-v2'; // giữ khóa cũ để không mất tiến độ đã lưu trên máy
 const CATEGORIES = {
   en: [
-    { id: 'a1', name: 'Khởi động & Cơ bản', short: 'Sơ cấp 1', icon: '🐣', level: 'A1', count: '13 bài', desc: 'Chào hỏi, số đếm, màu sắc, gia đình, đồ dùng học tập, động vật, hoa quả, rau củ, đồ ăn, đồ uống, quần áo, sinh hoạt' },
-    { id: 'a2', name: 'Đời sống & Giao tiếp', short: 'Sơ cấp 2', icon: '🌿', level: 'A2', count: '17 bài', desc: 'Thời tiết, nhà bếp, ngoại hình, cảm xúc, hành động cơ thể, giao thông, trường học, mua sắm, quê hương, quốc gia, côn trùng, hoa cỏ, hải sản, lễ Tết' },
+    { id: 'a1', name: 'Khởi động & Cơ bản', short: 'Sơ cấp 1', icon: '🐣', level: 'A1', count: '14 bài', desc: 'Chào hỏi, quốc gia, số đếm, màu sắc, gia đình, các hoạt động trong ngày, ăn uống, hoa quả, rau củ, quần áo, trường học, đồ dùng học tập, động vật' },
+    { id: 'a2', name: 'Đời sống & Giao tiếp', short: 'Sơ cấp 2', icon: '🌿', level: 'A2', count: '17 bài', desc: 'Ngoại hình, cảm xúc, hành động cơ thể, nhà ở & việc nhà, nhà bếp, gọi món nhà hàng, mua sắm, hỏi đường, quê hương, thời tiết, thiên nhiên, lễ Tết, sở thích' },
     { id: 'b1', name: 'Trung cấp 1 · Đời sống xã hội', short: 'Trung cấp 1', icon: '🎨', level: 'B1', count: '15 bài', desc: 'Nghề nghiệp, tính cách, công việc, thể thao, bóng đá, phim ảnh, du lịch, thời trang, y tế, bưu điện, ngân hàng, nghệ thuật, công nghệ, môi trường & tự nhiên, quân đội' },
     { id: 'b2', name: 'Trung cấp 2 · Thương mại & Đi làm', short: 'Trung cấp 2', icon: '💼', level: 'B2', count: '15 bài', desc: 'Tiếng Anh Thương mại cốt lõi: tiếp khách & tham quan xưởng, chốt deal đơn hàng, quy chuẩn bao bì, xử lý sự cố sản xuất & khiếu nại, xuất nhập khẩu (Incoterms, B/L), đàm phán và phỏng vấn' },
     { id: 'c1', name: 'Cao cấp & Học thuật', short: 'Cao cấp', icon: '🏛️', level: 'C1', count: '5 bài', desc: 'Nghiên cứu học thuật, kinh tế vĩ mô toàn cầu, quản trị chiến lược M&A, khung pháp lý & IP, nghệ thuật tranh biện phản biện' },
     { id: 'c2', name: 'Thành thạo & Ngoại giao', short: 'Bậc thầy', icon: '👑', level: 'C2', count: '5 bài', desc: 'Quan hệ quốc tế & địa chính trị, triết học & nhận thức luận, nghệ thuật biên dịch, đạo đức AI tương lai, truyền thông khủng hoảng' },
-    { id: 'all', name: 'Tất cả các chủ đề', short: 'Tất cả', icon: '📚', level: 'A1–C2', count: '70 bài', desc: 'Toàn bộ 70 bài học tiếng Anh phân loại chuẩn quốc tế theo 6 bậc CEFR từ A1 đến C2' }
+    { id: 'all', name: 'Tất cả các chủ đề', short: 'Tất cả', icon: '📚', level: 'A1–C2', count: '71 bài', desc: 'Toàn bộ 71 bài học tiếng Anh phân loại chuẩn quốc tế theo 6 bậc CEFR từ A1 đến C2' }
   ]
 };
 
 // ===== DỮ LIỆU ĐỊNH DANH BÀI HỌC, TIẾN ĐỘ & LỘ TRÌNH DỰ BÁO CÁN ĐÍCH =====
-const TOPIC_META = {"en":{"34":["a1",5],"101":["a1",9],"102":["a1",6],"103":["a1",9],"104":["a1",8],"105":["a1",9],"106":["a1",8],"107":["a1",8],"108":["a1",9],"35":["a1",5],"109":["a1",9],"110":["a1",11],"38":["a1",5],"111":["a2",13],"112":["a2",7],"113":["a2",9],"114":["a2",6],"115":["a2",7],"37":["a2",5],"116":["a2",7],"36":["a2",5],"117":["a2",7],"118":["a2",8],"119":["a2",7],"120":["a2",8],"121":["a2",8],"122":["a2",8],"123":["a2",8],"124":["a2",6],"40":["a2",5],"125":["b1",16],"126":["b1",6],"127":["b1",7],"42":["b1",5],"128":["b1",7],"41":["b1",5],"43":["b1",5],"129":["b1",7],"39":["b1",5],"130":["b1",7],"131":["b1",7],"44":["b1",5],"45":["b1",5],"132":["b1",7],"133":["b1",7],"177":["b2",4],"1":["b2",4],"2":["b2",4],"182":["b2",4],"3":["b2",4],"4":["b2",4],"183":["b2",4],"7":["b2",4],"5":["b2",4],"184":["b2",4],"185":["b2",4],"21":["b2",4],"186":["b2",4],"26":["b2",4],"187":["b2",4],"151":["c1",4],"152":["c1",4],"153":["c1",3],"154":["c1",3],"155":["c1",3],"156":["c2",3],"157":["c2",3],"158":["c2",3],"159":["c2",3],"160":["c2",3]}};
-const CAT_TOTAL_TOPICS = {"en":{"a1":13,"a2":17,"b1":15,"b2":15,"c1":5,"c2":5}};
-const CAT_TOTAL_LESSONS = {"en":{"a1":101,"a2":124,"b1":101,"b2":60,"c1":17,"c2":15}};
-const LANG_TOTAL_TOPICS = {"en":70};
-const LANG_TOTAL_LESSONS = {"en":418};
+const TOPIC_META = {"en":{"34":["a1",5],"118":["a1",8],"101":["a1",9],"102":["a1",7],"103":["a1",9],"188":["a1",7],"108":["a1",9],"109":["a1",9],"106":["a1",8],"107":["a1",8],"110":["a1",13],"116":["a1",8],"104":["a1",8],"105":["a1",9],"113":["a2",9],"114":["a2",7],"115":["a2",8],"38":["a2",5],"112":["a2",8],"35":["a2",5],"36":["a2",5],"37":["a2",5],"117":["a2",8],"111":["a2",13],"120":["a2",8],"119":["a2",7],"121":["a2",8],"122":["a2",8],"123":["a2",8],"124":["a2",7],"40":["a2",5],"125":["b1",16],"126":["b1",7],"127":["b1",8],"42":["b1",5],"128":["b1",8],"41":["b1",5],"43":["b1",5],"129":["b1",8],"39":["b1",5],"130":["b1",8],"131":["b1",8],"44":["b1",5],"45":["b1",5],"132":["b1",8],"133":["b1",8],"177":["b2",4],"1":["b2",4],"2":["b2",4],"182":["b2",4],"3":["b2",4],"4":["b2",4],"183":["b2",4],"7":["b2",4],"5":["b2",4],"184":["b2",4],"185":["b2",4],"21":["b2",4],"186":["b2",4],"26":["b2",4],"187":["b2",4],"151":["c1",4],"152":["c1",4],"153":["c1",3],"154":["c1",3],"155":["c1",3],"156":["c2",3],"157":["c2",3],"158":["c2",3],"159":["c2",3],"160":["c2",3]}};
+const CAT_TOTAL_TOPICS = {"en":{"a1":14,"a2":17,"b1":15,"b2":15,"c1":5,"c2":5}};
+const CAT_TOTAL_LESSONS = {"en":{"a1":117,"a2":124,"b1":109,"b2":60,"c1":17,"c2":15}};
+const LANG_TOTAL_TOPICS = {"en":71};
+const LANG_TOTAL_LESSONS = {"en":442};
 let PICK_TAB = 'progress'; // 'progress' | 'schedule' | 'roadmap'
 let STUDY_PACE = 'schedule'; // 'schedule' | 'daily1' | 'daily2'
 let ROADMAP_LANG = ''; // '' (mặc định dùng S.lang) | 'all' | 'en' | 'zh' | 'ja'
@@ -3279,7 +3279,7 @@ function renderRoadmapTabContent(t) {
               ? '🏁 Dự kiến hoàn thành Giáo trình Sơ cấp Minna & Giao tiếp (26 bài):'
               : (c === 'zh'
                 ? '🏁 Dự kiến hoàn thành Toàn bộ Giáo trình HSK 3.0 (290 bài):'
-                : '🏁 Dự kiến hoàn thành Toàn bộ Khóa học Tiếng Anh (70 bài):')
+                : '🏁 Dự kiến hoàn thành Toàn bộ Khóa học Tiếng Anh (71 bài):')
             ),
             h('b', { style: { color: p.remainingTopics === 0 ? 'var(--good)' : 'var(--teal)', fontSize: '.9rem' } }, estAll.timeText)
           ),
@@ -3745,7 +3745,7 @@ function homeView() {
     ...phases.map((ph) => h('div', { class: 'stack' },
       ph.name && h('p', { class: 'label phase' }, cleanPhaseName(ph.name)),
       ...ph.topics.map((t) => topicCard(t, nx, curCat === 'all' ? t.pos : (t.catPos || (filteredTopics.indexOf(t) + 1)))))),
-    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.78 · Cập nhật 15/11/2026')));
+    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.79 · Cập nhật 15/11/2026')));
 }
 
 // ===== HỆ THỐNG LUYỆN THI IELTS 4 KỸ NĂNG (TIẾNG ANH) =====
@@ -9386,8 +9386,7 @@ function itemCard(code, v, tip) {
     },
       h('div', { class: 'row between', style: { alignItems: 'center', gap: '6px' } },
         h('div', { class: 'row', style: { gap: '6px', alignItems: 'center', flexWrap: 'wrap' } },
-          h('span', { class: 'label', style: { margin: 0, color: 'var(--teal)', fontWeight: '700', fontSize: '.8rem' } }, '📝 Ví dụ đặt câu & Ngữ pháp:'),
-          v.exSrc ? h('span', { class: 'chip', style: { fontSize: '.68rem', padding: '1px 7px', margin: 0, background: 'rgba(45,212,191,.12)', color: 'var(--teal)' } }, '📘 ' + v.exSrc) : null
+          h('span', { class: 'label', style: { margin: 0, color: 'var(--teal)', fontWeight: '700', fontSize: '.8rem' } }, '📝 Ví dụ đặt câu & Ngữ pháp:')
         ),
         listenBtns(code, v.ex)
       ),
@@ -10335,11 +10334,13 @@ function renderDialogueCard(code, title, src, lines, opts = {}) {
   if (pyBtn) pyBtn.onclick = () => { showPy = !showPy; syncVisibility(); };
   if (viBtn) viBtn.onclick = () => { showVi = !showVi; syncVisibility(); };
 
+  const cleanTitle = (title || 'Hội thoại đọc hiểu').replace(/\s*\(301\s*·\s*[^)]+\)/g, '').trim();
+  const cleanSrc = src && !String(src).includes('301') ? src : '';
   return h('div', { class: 'panel stack', style: { gap: '8px', padding: opts.compact ? '12px 14px' : '14px 16px', background: 'rgba(15,23,42,.35)', border: '1px solid rgba(45,212,191,.22)' } },
     h('div', { class: 'row between', style: { alignItems: 'center', gap: '8px', flexWrap: 'wrap' } },
       h('div', { class: 'row', style: { gap: '6px', alignItems: 'center', flexWrap: 'wrap' } },
-        h('strong', { style: { fontSize: '.9rem' } }, title || 'Hội thoại đọc hiểu'),
-        src ? h('span', { class: 'chip', style: { fontSize: '.68rem', padding: '1px 7px', margin: 0, background: 'rgba(45,212,191,.14)', color: 'var(--teal)' } }, '📘 ' + src) : null
+        h('strong', { style: { fontSize: '.9rem' } }, cleanTitle),
+        cleanSrc ? h('span', { class: 'chip', style: { fontSize: '.68rem', padding: '1px 7px', margin: 0, background: 'rgba(45,212,191,.14)', color: 'var(--teal)' } }, '📘 ' + cleanSrc) : null
       ),
       h('div', { class: 'row', style: { gap: '5px', flexWrap: 'wrap' } }, playAllBtn, pyBtn, viBtn)
     ),
@@ -10499,12 +10500,12 @@ function lessonView(t, i) {
       setTimeout(draw);
     } else if (ex.type === 'fill') {
       const { box, sels } = buildFillInputs(code, ex.fill, update);
+      const fillTitle = ex.fill.title ? ex.fill.title.replace(/\s*\(301\s*·\s*[^)]+\)/g, '').trim() : '';
       body = h('div', { class: 'stack' },
         h('div', { class: 'row', style: { gap: '6px', alignItems: 'center', flexWrap: 'wrap' } },
-          h('p', { class: 'label', style: { margin: 0 } }, code === 'en' ? '✍️ Kỹ năng Viết · Điền từ vào email công việc' : '✍️ Đọc & Điền từ vào đoạn hội thoại'),
-          ex.fill.src ? h('span', { class: 'chip', style: { fontSize: '.7rem', padding: '1px 7px', margin: 0, background: 'rgba(45,212,191,.14)', color: 'var(--teal)' } }, '📘 ' + ex.fill.src) : null
+          h('p', { class: 'label', style: { margin: 0 } }, code === 'en' ? '✍️ Kỹ năng Viết · Điền từ vào email công việc' : '✍️ Đọc & Điền từ vào đoạn hội thoại')
         ),
-        ex.fill.title ? h('p', { class: 'small muted', style: { margin: 0 } }, ex.fill.title) : null,
+        fillTitle ? h('p', { class: 'small muted', style: { margin: 0 } }, fillTitle) : null,
         h('div', { class: 'panel' }, box),
         ex.fill.trans && h('details', {}, h('summary', { class: 'small muted' }, 'Xem nghĩa'), h('p', { class: 'small muted' }, ex.fill.trans))
       );
@@ -12248,7 +12249,7 @@ function renderSkillsFillPanel(code, t, fills, onRefresh = () => skillsView('rea
         ? { background: 'rgba(45,212,191,.18)', border: '1px solid var(--teal)', color: 'var(--teal)', fontWeight: 700, borderRadius: '999px', padding: '4px 10px' }
         : { border: '1px solid var(--line)', borderRadius: '999px', padding: '4px 10px' },
       onclick: () => { READ_FILL_IDX[t.id] = idx; onRefresh(); }
-    }, 'Bài ' + (idx + 1) + (f.src ? ' · ' + f.src.replace('301 · ', '') : '')))
+    }, 'Bài ' + (idx + 1)))
   ) : null;
 
   const fbEl = h('div', { class: 'stack', style: { gap: '8px' }, 'aria-live': 'polite' });
@@ -12273,15 +12274,15 @@ function renderSkillsFillPanel(code, t, fills, onRefresh = () => skillsView('rea
         h('strong', {}, ok === sels.length ? 'Chính xác tuyệt đối!' : 'Đúng ' + ok + '/' + sels.length + ' chỗ trống'),
         ok < sels.length ? h('p', { class: 'small', lang: LANGS[code].lang, style: { margin: '4px 0 0 0' } }, 'Đáp án: ' + sels.map((s) => s.dataset.ok).join(' · ')) : null
       ),
-      fillReveal(code, fillObj, (fillObj.src && !fillObj.audio) ? null : t.id)
+      fillReveal(code, fillObj, code === 'en' ? t.id : null)
     );
   };
 
+  const cleanFillTitle = (fillObj.title || 'Điền từ thích hợp vào đoạn hội thoại').replace(/\s*\(301\s*·\s*[^)]+\)/g, '').trim();
   return h('div', { class: 'stack', style: { gap: '10px' } },
     navPills,
     h('div', { class: 'row between', style: { alignItems: 'center', gap: '8px', flexWrap: 'wrap' } },
-      h('span', { class: 'small', style: { fontWeight: 700 } }, fillObj.title || 'Điền từ thích hợp vào đoạn hội thoại'),
-      fillObj.src ? h('span', { class: 'chip', style: { fontSize: '.7rem', padding: '1px 8px', margin: 0, background: 'rgba(45,212,191,.14)', color: 'var(--teal)' } }, '📘 ' + fillObj.src) : null
+      h('span', { class: 'small', style: { fontWeight: 700 } }, cleanFillTitle)
     ),
     h('div', { class: 'panel' }, box),
     fillObj.trans ? h('details', {}, h('summary', { class: 'small muted' }, 'Xem nghĩa đoạn hội thoại'), h('p', { class: 'small muted', style: { marginTop: '6px', lineHeight: 1.5 } }, fillObj.trans)) : null,
@@ -12310,13 +12311,12 @@ function renderReadSkillsRich(code, d, onRefresh = () => skillsView('read')) {
           ? { background: 'rgba(45,212,191,.18)', border: '1px solid var(--teal)', color: 'var(--teal)', fontWeight: 700, borderRadius: '999px', padding: '4px 10px' }
           : { border: '1px solid var(--line)', borderRadius: '999px', padding: '4px 10px' },
         onclick: () => { READ_DLG_IDX[t.id] = idx; onRefresh(); }
-      }, (idx + 1) + '. ' + (item.title || 'Hội thoại')))
+      }, (idx + 1) + '. ' + ((item.title || 'Hội thoại').replace(/\s*\(301\s*·\s*[^)]+\)/g, '').trim())))
     ) : null;
-    const has301Src = speaks.some((x) => x && x.src && x.src.includes('301'));
     out.push(h('div', { class: 'card stack', style: { gap: '10px' } },
-      h('p', { class: 'label', style: { margin: 0 } }, has301Src ? '💬 Hội thoại & Bài đọc giáo trình 301' : '💬 Hội thoại & Bài đọc'),
+      h('p', { class: 'label', style: { margin: 0 } }, '💬 Hội thoại & Bài đọc'),
       dlgTabs,
-      renderDialogueCard(code, sc.title, sc.src, sc.lines, { defaultShowPy: true, defaultShowVi: true })
+      renderDialogueCard(code, sc.title, '', sc.lines, { defaultShowPy: true, defaultShowVi: true })
     ));
   }
 
@@ -12359,8 +12359,7 @@ function renderReadSkillsRich(code, d, onRefresh = () => skillsView('read')) {
         h('div', { class: 'stack', style: { gap: '2px', flex: 1, minWidth: 0 } },
           h('div', { class: 'row', style: { gap: '6px', alignItems: 'center', flexWrap: 'wrap' } },
             h('strong', { lang: LANGS[code].lang, style: { color: 'var(--teal)' } }, plain(v.w)),
-            h('span', { class: 'small muted' }, '— ' + v.m),
-            v.exSrc ? h('span', { class: 'chip', style: { fontSize: '.68rem', padding: '1px 7px', margin: 0, background: 'rgba(45,212,191,.12)', color: 'var(--teal)' } }, '📘 ' + v.exSrc) : null
+            h('span', { class: 'small muted' }, '— ' + v.m)
           ),
           h('p', { lang: LANGS[code].lang, style: { margin: '2px 0 0 0', fontSize: '1.05rem', fontWeight: 600 } }, v.ex),
           v.exr ? h('p', { class: 'small read', style: { margin: 0, textAlign: 'left' } }, v.exr) : null,
@@ -12644,7 +12643,7 @@ function charView(code, c, list) {
 function fillReveal(code, fill, tid) {
   const full = fill.text.replace(/\[\[(.+?)\]\]/g, (m, g) => g.split('|')[0]), lines = full.split('\n'), rl = (fill.r || '').split('\n');
   const spoken = code === 'zh' ? full.replace(/^[^\n：:]{1,8}[：:]\s*/gm, '') : full.replace(/^[AB][：:]\s*/gm, '');
-  let mailSrc = fill.audio || (tid && !fill.src ? 'audio/mail/' + code + '-' + tid + '.mp3' : null);
+  let mailSrc = fill.audio || (code === 'en' && tid && !fill.src ? 'audio/mail/' + code + '-' + tid + '.mp3' : null);
   if (mailSrc && mailSrc.startsWith('audio/')) {
     mailSrc = langPath(code, mailSrc);
   }
