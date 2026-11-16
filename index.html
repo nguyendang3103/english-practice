@@ -1008,7 +1008,7 @@ details[open] > summary .guide-arrow { transform: rotate(180deg); }
    Dữ liệu bài học nằm trong data/en.json và data/ielts_30day_listening.js,
    âm thanh thu sẵn nằm trong audio/ (audio/w*.json, audio/mail/, audio/listen/, audio/ielts/).
    ===================================================================== */
-const APP_BUILD_ID = '20261116-0915';
+const APP_BUILD_ID = '20261116-1015';
 const LANGS = {
   en: { label: 'English', vi: 'Tiếng Anh', short: 'Anh', folder: '', tts: 'en-US', rec: 'en-US', lang: 'en', cjk: false },
 };
@@ -3606,6 +3606,8 @@ function welcomeView() {
 
 // ===== Trang Học =====
 const openTopics = new Set();
+const openQuickQuizTopics = new Set();
+const INLINE_TOPIC_QUIZ = {};
 function feedbackBtn(customCtx) {
   return h('button', {
     class: 'feedback-btn',
@@ -3839,7 +3841,7 @@ function homeView() {
     ...phases.map((ph) => h('div', { class: 'stack' },
       ph.name && h('p', { class: 'label phase' }, cleanPhaseName(ph.name)),
       ...ph.topics.map((t) => topicCard(t, nx, curCat === 'all' ? t.pos : (t.catPos || (filteredTopics.indexOf(t) + 1)))))),
-    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.86 · Cập nhật 15/11/2026')));
+    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.87 · Cập nhật 16/11/2026')));
 }
 
 // ===== HỆ THỐNG LUYỆN THI IELTS 4 KỸ NĂNG (TIẾNG ANH) =====
@@ -9312,9 +9314,271 @@ function renderIeltsWriting(t, data) {
   return h('div', { class: 'stack-lg' }, taskTabs, container);
 }
 
+function buildTopicQuickQuestions(t) {
+  const code = t.lang || S.lang || 'en';
+  const d = DATA[code] || {};
+  const qs = [];
+  const usedKeys = new Set();
+
+  // 1. Câu hỏi ngữ pháp của chủ đề (nếu có)
+  if (t.gram && t.gram.length && d.grammar) {
+    for (const gid of shuffle(t.gram.slice())) {
+      if (qs.length >= 1) break;
+      const qStep = makeGrammarQuizStep(code, gid, ['mcq', 'cloze']);
+      if (qStep && qStep.q && qStep.q.opts && qStep.q.opts.length >= 2) {
+        const gq = qStep.q;
+        const why = gq.why || (gq.p && gq.p.g ? (gq.p.g.t + (gq.p.g.f ? ' · ' + gq.p.g.f : '')) : '');
+        qs.push({
+          tag: 'Ngữ pháp',
+          prompt: gq.prompt,
+          sub: gq.sub || '',
+          hint: gq.hint || '',
+          opts: gq.opts,
+          answer: gq.answer,
+          langPrompt: gq.type === 'cloze',
+          langOpts: gq.type === 'cloze',
+          speakText: (gq.e && gq.e[0]) || '',
+          why,
+          gid
+        });
+        usedKeys.add('g:' + gq.prompt);
+      }
+    }
+  }
+
+  // 2. Câu hỏi tình huống / đọc hiểu của chủ đề (ưu tiên câu độc lập)
+  if (Array.isArray(t.quiz) && t.quiz.length) {
+    const standalone = t.quiz.filter((qz) => qz && !qz.dialogue && qz.speakIdx == null);
+    const poolQ = standalone.length ? standalone : t.quiz;
+    const qz = shuffle(poolQ.slice())[0];
+    if (qz) {
+      const origOpts = qz.o || qz.opts || [];
+      const correctStr = origOpts[qz.a];
+      if (origOpts.length >= 2 && correctStr != null) {
+        qs.push({
+          tag: 'Tình huống',
+          prompt: qz.q,
+          opts: shuffle(origOpts.slice()),
+          answer: correctStr,
+          langOpts: true,
+          speakText: code === 'en' ? correctStr : '',
+          why: qz.why || qz.exp || ''
+        });
+      }
+    }
+  }
+
+  // 3. Bổ sung câu hỏi từ vựng hoặc Kanji cho đủ 3 câu kiểm tra nhanh
+  const topicWords = (t.vocab || []).filter((v) => v && v.w && v.m);
+  const allWords = (d.topics || []).flatMap((x) => x.vocab || []).filter((v) => v && v.w && v.m);
+  const wordPool = topicWords.length >= 6 ? topicWords : allWords;
+  for (const v of shuffle(topicWords.slice())) {
+    if (qs.length >= 3) break;
+    if (usedKeys.has('v:' + v.id)) continue;
+    const dist = sample(wordPool, 3, (x) => x.id === v.id || x.m === v.m);
+    if (dist.length < 3) continue;
+    usedKeys.add('v:' + v.id);
+    qs.push({
+      tag: 'Từ vựng',
+      wordMain: plain(v.w),
+      prompt: 'Chọn nghĩa đúng của từ sau:',
+      sub: (v.r && v.r !== v.w) ? v.r : '',
+      opts: shuffle([v.m, ...dist.map((x) => x.m)]),
+      answer: v.m,
+      langPrompt: false,
+      langOpts: false,
+      speakText: v.w,
+      word: v,
+      why: v.ex ? (plain(v.ex) + (v.exm ? ' — ' + v.exm : '')) : ''
+    });
+  }
+
+  const topicKanji = (t.kanji || []).filter((k) => k && k.k && k.hv);
+  if (qs.length < 3 && topicKanji.length) {
+    const kPool = topicKanji.length >= 4 ? topicKanji : (d.topics || []).flatMap((x) => x.kanji || []);
+    for (const k of shuffle(topicKanji.slice())) {
+      if (qs.length >= 3) break;
+      const dist = sample(kPool, 3, (x) => x.k === k.k || x.hv === k.hv);
+      if (dist.length < 3) continue;
+      qs.push({
+        tag: 'Kanji',
+        wordMain: k.k,
+        prompt: 'Chữ Kanji này đọc Hán Việt là gì?',
+        sub: [k.on ? ('On: ' + k.on) : '', k.kun ? ('Kun: ' + k.kun) : ''].filter(Boolean).join(' · '),
+        opts: shuffle([k.hv, ...dist.map((x) => x.hv)]),
+        answer: k.hv,
+        langPrompt: false,
+        langOpts: false,
+        speakText: k.k,
+        why: (k.ex && k.ex[0]) ? (plain(k.ex[0][0]) + ': ' + k.ex[0][1]) : ''
+      });
+    }
+  }
+
+  return qs;
+}
+
+function renderInlineTopicQuiz(t) {
+  const code = t.lang || S.lang || 'en';
+  const langAttr = LANGS[code].lang;
+  const ok = code + ':' + t.id;
+  if (!INLINE_TOPIC_QUIZ[ok] || !INLINE_TOPIC_QUIZ[ok].qs || !INLINE_TOPIC_QUIZ[ok].qs.length) {
+    INLINE_TOPIC_QUIZ[ok] = { qs: buildTopicQuickQuestions(t), idx: 0, score: 0, chosen: null };
+  }
+  const st = INLINE_TOPIC_QUIZ[ok];
+  const box = h('div', {
+    class: 'panel stack',
+    style: {
+      gap: '10px',
+      padding: '12px 14px',
+      borderRadius: '14px',
+      background: 'var(--sunk)',
+      border: '1.5px solid var(--teal)',
+      margin: '2px 0 4px 0'
+    }
+  });
+
+  const draw = () => {
+    if (!st.qs.length) {
+      box.replaceChildren(
+        h('div', { class: 'row between', style: { alignItems: 'center' } },
+          h('span', { class: 'small muted' }, 'Chủ đề này chưa có đủ câu hỏi nhanh.'),
+          h('button', { class: 'ghost mini', onclick: () => { openQuickQuizTopics.delete(ok); homeView(); } }, 'Đóng')
+        )
+      );
+      return;
+    }
+
+    if (st.idx >= st.qs.length) {
+      const pct = Math.round((st.score / st.qs.length) * 100);
+      box.replaceChildren(
+        h('div', { class: 'row between', style: { alignItems: 'center', gap: '8px' } },
+          h('span', { class: 'label', style: { margin: 0, color: 'var(--teal)' } }, '⚡ Kết quả kiểm tra nhanh'),
+          h('span', { class: 'chip good' }, st.score + '/' + st.qs.length + ' (' + pct + '%)')
+        ),
+        h('p', { class: 'small', style: { margin: 0 } },
+          st.score === st.qs.length ? 'Tuyệt vời! Bạn nắm vững kiến thức trọng tâm của bài này.' : 'Khá tốt! Hãy đổi bộ câu hỏi mới hoặc vào bài học để luyện sâu hơn.'
+        ),
+        h('div', { class: 'row wrap', style: { gap: '8px' } },
+          h('button', {
+            class: 'primary mini',
+            onclick: () => {
+              INLINE_TOPIC_QUIZ[ok] = { qs: buildTopicQuickQuestions(t), idx: 0, score: 0, chosen: null };
+              st.qs = INLINE_TOPIC_QUIZ[ok].qs; st.idx = 0; st.score = 0; st.chosen = null;
+              draw();
+            }
+          }, '🔄 Đổi 3 câu khác'),
+          h('button', {
+            class: 'ghost mini',
+            onclick: () => { openQuickQuizTopics.delete(ok); homeView(); }
+          }, 'Thu gọn')
+        )
+      );
+      return;
+    }
+
+    const q = st.qs[st.idx];
+    const done = st.chosen !== null;
+    const isOk = done && st.chosen === q.answer;
+    const nextLabel = st.idx + 1 < st.qs.length ? 'Câu tiếp ➔' : 'Xem kết quả ➔';
+
+    box.replaceChildren(
+      h('div', { class: 'row between', style: { alignItems: 'center', gap: '6px', flexWrap: 'wrap' } },
+        h('div', { class: 'row', style: { gap: '6px', alignItems: 'center' } },
+          h('span', { class: 'chip accent', style: { fontWeight: 700 } }, '⚡ ' + q.tag),
+          h('span', { class: 'small muted', style: { fontWeight: 600 } }, 'Câu ' + (st.idx + 1) + '/' + st.qs.length)
+        ),
+        h('div', { class: 'row', style: { gap: '4px', alignItems: 'center' } },
+          q.speakText ? spk(code, q.speakText) : null,
+          h('button', {
+            class: 'ghost mini',
+            style: { padding: '2px 8px', minHeight: '30px', fontSize: '.78rem' },
+            onclick: () => { openQuickQuizTopics.delete(ok); homeView(); }
+          }, '✕')
+        )
+      ),
+      h('p', { class: 'small', style: { margin: 0, fontWeight: 600, fontSize: '.96rem', lineHeight: 1.4 }, lang: q.langPrompt ? langAttr : null }, q.prompt),
+      q.wordMain ? h('div', { class: 'row wrap', style: { gap: '8px', alignItems: 'baseline' } },
+        h('span', { style: { fontSize: '1.35rem', fontWeight: 700, color: 'var(--ink)' }, lang: langAttr }, q.wordMain),
+        q.sub ? h('span', { class: 'small read', style: { textAlign: 'left', margin: 0 }, lang: code === 'ja' ? 'ja' : null }, q.sub) : null
+      ) : (q.sub ? h('p', { class: 'small muted', style: { margin: 0 }, lang: code === 'en' ? 'en' : langAttr }, q.sub) : null),
+      q.hint ? h('p', { class: 'small muted', style: { margin: 0 } }, 'Nghĩa: ' + q.hint) : null,
+      h('div', { class: 'options', style: { gap: '6px' } },
+        ...q.opts.map((opt, idxOpt) => {
+          let cls = '';
+          if (done) {
+            if (opt === q.answer) cls = 'right';
+            else if (opt === st.chosen) cls = 'wrong';
+          }
+          return h('button', {
+            class: cls,
+            disabled: done,
+            style: { minHeight: '40px', padding: '8px 12px', fontSize: '.92rem', borderRadius: '10px', background: done ? undefined : 'var(--surface)' },
+            onclick: () => {
+              if (done) return;
+              st.chosen = opt;
+              const hit = opt === q.answer;
+              if (hit) {
+                st.score++;
+                addXp(2, code);
+              }
+              if (q.gid) srsRate(code + ':gram:' + q.gid, hit);
+              else if (q.word && q.word.id) srsRate(sid(code, q.word.id), hit);
+              if (q.speakText) sayAfter(code, q.speakText, 180);
+              draw();
+            }
+          }, h('span', { class: 'kbd' }, idxOpt + 1), h('span', { class: 'grow', lang: q.langOpts ? langAttr : null }, opt));
+        })
+      ),
+      done ? h('div', { class: 'feedback ' + (isOk ? 'ok' : 'no'), style: { padding: '10px 12px', gap: '4px' } },
+        h('div', { class: 'row between', style: { alignItems: 'center', gap: '8px', flexWrap: 'wrap' } },
+          h('strong', {}, isOk ? '✓ Chính xác! +2 XP' : '✗ Chưa đúng · Đáp án: ' + q.answer),
+          h('button', {
+            class: 'primary mini',
+            onclick: () => { st.idx++; st.chosen = null; draw(); }
+          }, nextLabel)
+        ),
+        q.why ? h('p', { class: 'small', style: { margin: 0, lineHeight: 1.4 } }, '💡 ' + q.why) : null
+      ) : null
+    );
+  };
+
+  draw();
+  return box;
+}
+
 function topicCard(t, nx, num) {
   const ok = t.lang + ':' + t.id, done = t.lessons.filter((l, i) => lessonDone(t, i)).length, open = openTopics.has(ok), isCur = nx && nx.t === t;
+  const d = DATA[t.lang];
+  const hasGram = !!(t.gram && t.gram.length && d && d.grammar);
+  const hasQuickQuiz = !!((t.vocab && t.vocab.length) || (t.kanji && t.kanji.length) || (t.quiz && t.quiz.length) || hasGram);
+  const quickOpen = openQuickQuizTopics.has(ok);
   const body = open && h('div', { class: 'body' },
+    (hasGram || hasQuickQuiz) && h('div', { class: 'extras', style: { gap: '6px', marginBottom: '2px' } },
+      hasGram && h('button', {
+        class: 'ghost mini',
+        style: { border: '1px solid var(--line)', background: 'var(--sunk)', fontSize: '.82rem', padding: '5px 10px' },
+        onclick: () => grammarView(t, 'home')
+      }, '📖 Ngữ pháp (' + t.gram.length + ')'),
+      hasQuickQuiz && h('button', {
+        class: quickOpen ? 'primary mini' : 'ghost mini',
+        style: quickOpen ? { fontSize: '.82rem', padding: '5px 10px' } : { border: '1px solid rgba(15,82,87,.35)', background: 'rgba(15,82,87,.07)', fontSize: '.82rem', padding: '5px 10px', fontWeight: 600 },
+        onclick: () => {
+          if (quickOpen) openQuickQuizTopics.delete(ok);
+          else {
+            openQuickQuizTopics.add(ok);
+            delete INLINE_TOPIC_QUIZ[ok];
+          }
+          homeView();
+        }
+      }, quickOpen ? '✕ Thu gọn bài tập' : '⚡ Bài tập kiểm tra nhanh'),
+      hasGram && h('button', {
+        class: 'ghost mini',
+        style: { border: '1px solid var(--line)', background: 'var(--surface)', fontSize: '.82rem', padding: '5px 10px' },
+        onclick: () => grammarTopicQuiz(t, 'home')
+      }, '📝 Quiz 10 câu')
+    ),
+    quickOpen && renderInlineTopicQuiz(t),
     ...t.lessons.map((l, i) => {
       const dn = lessonDone(t, i), unlocked = dn || i === 0 || lessonDone(t, i - 1) || true;
       const lessonBtn = h('button', {
@@ -10082,39 +10346,46 @@ function buildSteps(t, i) {
   const opt = (v, field) => shuffle([v, ...sample(topicWords.length >= 6 ? topicWords : allWords, 3, (x) => x.id === v.id || x[field] === v[field])]);
 
   if (l.kind === 'learn') {
-    // 1. TỪ VỰNG MỚI (Vocabulary)
-    l.words.forEach((v, n0) => steps.push({ type: 'intro', v, tip: n0 === 0 }));
+    // 1. TỪ VỰNG MỚI & KIỂM TRA NGAY THEO TỪNG CỤM 3 TỪ (Micro-batch vừa học vừa kiểm tra)
+    const BATCH = 3;
+    const hvwPool = code !== 'en' ? [...new Set(allWords.flatMap((w) => hvParts(code, w.w)).map((x) => x.hv).filter(Boolean))] : [];
+    let hvwAdded = 0;
+    for (let bStart = 0; bStart < l.words.length; bStart += BATCH) {
+      const batch = l.words.slice(bStart, bStart + BATCH);
+      batch.forEach((v, n0) => steps.push({ type: 'intro', v, tip: bStart === 0 && n0 === 0 }));
+      shuffle(batch).forEach((v) => steps.push({ type: 'meaning', v, opts: opt(v, 'm') }));
+      if (code !== 'en' && hvwAdded < 2) {
+        const chars = [...new Map(batch.flatMap((v) => hvParts(code, v.w).filter((x) => x.hv).map((x) => [x.c, { ...x, v }]))).values()];
+        for (const x of sample(chars, 1)) {
+          const meanLower = (x.m || '').toLowerCase().normalize('NFC');
+          const meanWords = meanLower.split(/[\s,;/()]+/).filter(Boolean);
+          const dis = sample(hvwPool.filter((q) => {
+            if (q === x.hv) return false;
+            const qLower = q.toLowerCase().normalize('NFC');
+            if (meanWords.includes(qLower) || meanLower === qLower) return false;
+            return true;
+          }), 3).map((hv) => ({ hv })), correct = { hv: x.hv };
+          if (dis.length === 3) {
+            steps.push({ type: 'hvw', v: x.v, c: x.c, m: x.m, correct, opts: shuffle([correct, ...dis]) });
+            hvwAdded++;
+          }
+        }
+      }
+    }
 
-    // Lồng thẻ ngữ pháp vào bài học sớm (tiếng Trung & Nhật)
+    // 2. NGỮ PHÁP BÀI HỌC + BÀI TẬP ÁP DỤNG NGAY SAU LÝ THUYẾT
     const learnIdx = t.lessons.slice(0, i).filter((x) => x.kind === 'learn').length;
     let currentGid = null;
+    let firstGramStep = null;
     if ((code === 'zh' || code === 'ja') && t.gram && t.gram.length && d.grammar) {
       currentGid = t.gram[learnIdx % t.gram.length];
       const g = d.grammar[currentGid];
       if (g) steps.push({ type: 'gintro', gid: currentGid, g });
+      firstGramStep = makeGrammarQuizStep(code, currentGid, ['mcq', 'cloze', 'order']);
+      if (firstGramStep) steps.push(firstGramStep);
     }
 
-    // Trắc nghiệm từ vựng: Chọn nghĩa đúng & Phản xạ từ
-    shuffle(l.words).forEach((v) => steps.push({ type: 'meaning', v, opts: opt(v, 'm') }));
-
-    // Hán Việt của từng chữ (với tiếng Trung & Nhật)
-    if (code !== 'en') {
-      const chars = [...new Map(l.words.flatMap((v) => hvParts(code, v.w).filter((x) => x.hv).map((x) => [x.c, { ...x, v }]))).values()];
-      const pool = [...new Set(allWords.flatMap((w) => hvParts(code, w.w)).map((x) => x.hv).filter(Boolean))];
-      sample(chars, 2).forEach((x) => {
-        const meanLower = (x.m || '').toLowerCase().normalize('NFC');
-        const meanWords = meanLower.split(/[\s,;/()]+/).filter(Boolean);
-        const dis = sample(pool.filter((q) => {
-          if (q === x.hv) return false;
-          const qLower = q.toLowerCase().normalize('NFC');
-          if (meanWords.includes(qLower) || meanLower === qLower) return false;
-          return true;
-        }), 3).map((hv) => ({ hv })), correct = { hv: x.hv };
-        if (dis.length === 3) steps.push({ type: 'hvw', v: x.v, c: x.c, m: x.m, correct, opts: shuffle([correct, ...dis]) });
-      });
-    }
-
-    // 2. KỸ NĂNG NGHE (Listening)
+    // 3. KỸ NĂNG NGHE (Listening) & PHẢN XẠ TỪ
     // Với Tiếng Anh từ B1 trở lên có hội thoại dài: luyện nghe hội thoại & trả lời câu hỏi chọn đáp án
     const longTracks = (code === 'en' && Array.isArray(t.listening) && t.listening.length) ? t.listening : null;
     if (longTracks) {
@@ -10209,11 +10480,11 @@ function buildSteps(t, i) {
       });
     }
 
-    // Bài tập ngữ pháp / điền từ (lồng 2 bài tập ngữ pháp khác dạng vào mỗi bài học)
+    // Bài tập ngữ pháp củng cố thêm điểm tiếp theo (khác dạng với câu ngay sau gintro)
     if ((code === 'zh' || code === 'ja') && t.gram && t.gram.length && d.grammar) {
       const g1 = currentGid || t.gram[learnIdx % t.gram.length];
-      const qStep1 = makeGrammarQuizStep(code, g1, ['mcq', 'cloze', 'order']);
-      if (qStep1) steps.push(qStep1);
+      const qStep1 = firstGramStep || makeGrammarQuizStep(code, g1, ['mcq', 'cloze', 'order']);
+      if (!firstGramStep && qStep1) steps.push(qStep1);
       const g2 = t.gram.length > 1 ? t.gram[(learnIdx + 1) % t.gram.length] : g1;
       const altTypes = qStep1 && qStep1.q && qStep1.q.type === 'mcq' ? ['cloze', 'order', 'mcq'] : ['mcq', 'order', 'cloze'];
       let qStep2 = makeGrammarQuizStep(code, g2, altTypes);
