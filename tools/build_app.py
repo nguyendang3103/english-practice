@@ -333,8 +333,8 @@ def main() -> None:
     )
     html = replace_exact(
         html,
-        "  const shortDayNames = { 1: 'T2 (Anh)', 2: 'T3 (Trung)', 3: 'T4 (Nhật)', 4: 'T5 (Anh)', 5: 'T6 (Trung)', 6: 'T7 (Nhật)', 0: 'CN (Ôn)' };\n\n  return [\n    // 1. Nguyên tắc lịch học xoay vòng 2-2-2-1",
-        "  const shortDayNames = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7', 0: 'CN (Ôn)' };\n\n  return [\n    // 1. Nguyên tắc lịch học đều đặn mỗi ngày",
+        "  const shortDayNames = { 1: 'T2 (Anh)', 2: 'T3 (Trung)', 3: 'T4 (Nhật)', 4: 'T5 (Anh)', 5: 'T6 (Trung)', 6: 'T7 (Nhật)', 0: 'CN (Ôn)' };\n\n  return [\n    // 2. Bộ chọn Thứ trong tuần để xem hôm đó học gì",
+        "  const shortDayNames = { 1: 'T2', 2: 'T3', 3: 'T4', 4: 'T5', 5: 'T6', 6: 'T7', 0: 'CN (Ôn)' };\n\n  return [\n    // 2. Bộ chọn Thứ trong tuần để xem hôm đó học gì",
         label="shortDayNames",
     )
     html = replace_exact(
