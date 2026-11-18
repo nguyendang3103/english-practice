@@ -482,12 +482,12 @@ def main() -> None:
         count=2,
         label="reviewView pick buttons",
     )
-    html = replace_exact(
+    html, n_footer = re.subn(
+        rf"'Lingogo v{re.escape(app_ver)} · Cập nhật [^']+'",
+        f"'English Practice v{app_ver} · Cập nhật 18/11/2026'",
         html,
-        f"'Lingogo v{app_ver} · Cập nhật 15/11/2026'",
-        f"'English Practice v{app_ver} · Cập nhật 15/11/2026'",
-        label="homeView footer",
     )
+    assert n_footer == 1, f"Expected 1 homeView footer match, got {n_footer}"
     html = replace_exact(
         html,
         "h('p', { class: 'label' }, 'Lingogo'),\n        h('h1', {}, 'Chào ' + S.name + ', hôm nay học gì?')",
