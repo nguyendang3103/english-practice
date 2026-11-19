@@ -1159,7 +1159,7 @@ details.acc-group > .acc-body { background: var(--bg); padding: 10px 12px; gap: 
    Dữ liệu bài học nằm trong data/en.json và data/ielts_30day_listening.js,
    âm thanh thu sẵn nằm trong audio/ (audio/w*.json, audio/mail/, audio/listen/, audio/ielts/).
    ===================================================================== */
-const APP_BUILD_ID = '20261118-0500';
+const APP_BUILD_ID = '20261118-0600';
 const LANGS = {
   en: { label: 'English', vi: 'Tiếng Anh', short: 'Anh', folder: '', tts: 'en-US', rec: 'en-US', lang: 'en', cjk: false },
 };
@@ -1173,19 +1173,19 @@ const CATEGORIES = {
     { id: 'a1', name: 'Khởi động & Cơ bản', short: 'Sơ cấp 1', icon: '🐣', level: 'A1', count: '14 bài', desc: 'Chào hỏi, quốc gia, số đếm, màu sắc, gia đình, các hoạt động trong ngày, ăn uống, hoa quả, rau củ, quần áo, trường học, đồ dùng học tập, động vật' },
     { id: 'a2', name: 'Đời sống & Giao tiếp', short: 'Sơ cấp 2', icon: '🌿', level: 'A2', count: '17 bài', desc: 'Ngoại hình, cảm xúc, hành động cơ thể, nhà ở & việc nhà, nhà bếp, gọi món nhà hàng, mua sắm, hỏi đường, quê hương, thời tiết, thiên nhiên, lễ Tết, sở thích' },
     { id: 'b1', name: 'Trung cấp 1 · Đời sống xã hội', short: 'Trung cấp 1', icon: '🎨', level: 'B1', count: '15 bài', desc: 'Tính cách, sức khỏe, thể thao, bóng đá, thời trang, âm nhạc & phim ảnh, nghệ thuật, công nghệ, du lịch, bưu điện, ngân hàng, môi trường, quân đội, nghề nghiệp & công việc' },
-    { id: 'b2', name: 'Thương mại', short: 'Thương mại', icon: '💼', level: 'B2', count: '18 bài', desc: 'Phỏng vấn STAR, công ty & tiếp khách; chào hàng, báo giá, gửi mẫu & đàm phán; xuất nhập khẩu (PO, Incoterms, B/L), quy chuẩn bao bì & giao vận; kiểm soát lỗi QC, khiếu nại & Claim; ngành Dịch vụ, Du lịch & Bảo hiểm' },
+    { id: 'b2', name: 'Trung cấp 2 · Công việc & Ngành nghề', short: 'Trung cấp 2', icon: '💼', level: 'B2', count: '21 bài', desc: 'Các hoạt động công việc đa ngành: Thương mại, XNK & QC; Dịch vụ & CSKH; Du lịch & Khách sạn; Bảo hiểm; Sản xuất & Nhà máy; Xây dựng & Công trường; Bất động sản & Cho thuê…' },
     { id: 'c1', name: 'Cao cấp & Học thuật', short: 'Cao cấp', icon: '🏛️', level: 'C1', count: '5 bài', desc: 'Nghiên cứu học thuật, kinh tế vĩ mô toàn cầu, quản trị chiến lược M&A, khung pháp lý & IP, nghệ thuật tranh biện phản biện' },
     { id: 'c2', name: 'Thành thạo & Ngoại giao', short: 'Bậc thầy', icon: '👑', level: 'C2', count: '5 bài', desc: 'Quan hệ quốc tế & địa chính trị, triết học & nhận thức luận, nghệ thuật biên dịch, đạo đức AI tương lai, truyền thông khủng hoảng' },
-    { id: 'all', name: 'Tất cả các chủ đề', short: 'Tất cả', icon: '📚', level: 'A1–C2', count: '74 bài', desc: 'Toàn bộ 74 bài học tiếng Anh phân loại chuẩn quốc tế theo 6 bậc CEFR từ A1 đến C2' }
+    { id: 'all', name: 'Tất cả các chủ đề', short: 'Tất cả', icon: '📚', level: 'A1–C2', count: '77 bài', desc: 'Toàn bộ 77 bài học tiếng Anh phân loại chuẩn quốc tế theo 6 bậc CEFR từ A1 đến C2' }
   ]
 };
 
 // ===== DỮ LIỆU ĐỊNH DANH BÀI HỌC, TIẾN ĐỘ & LỘ TRÌNH DỰ BÁO CÁN ĐÍCH =====
-const TOPIC_META = {"en":{"34":["a1",5],"118":["a1",8],"101":["a1",9],"102":["a1",7],"103":["a1",9],"188":["a1",7],"108":["a1",9],"109":["a1",9],"106":["a1",8],"107":["a1",8],"110":["a1",13],"116":["a1",8],"104":["a1",8],"105":["a1",9],"113":["a2",9],"114":["a2",7],"115":["a2",8],"38":["a2",5],"112":["a2",8],"35":["a2",5],"36":["a2",5],"37":["a2",5],"117":["a2",8],"111":["a2",13],"120":["a2",8],"119":["a2",7],"121":["a2",8],"122":["a2",8],"123":["a2",8],"124":["a2",7],"40":["a2",5],"126":["b1",7],"39":["b1",5],"42":["b1",5],"128":["b1",8],"129":["b1",8],"41":["b1",5],"44":["b1",5],"45":["b1",5],"43":["b1",5],"130":["b1",8],"131":["b1",8],"132":["b1",8],"133":["b1",8],"125":["b1",16],"127":["b1",8],"177":["b2",4],"2":["b2",4],"1":["b2",4],"182":["b2",4],"3":["b2",4],"4":["b2",4],"183":["b2",4],"7":["b2",4],"5":["b2",4],"184":["b2",4],"21":["b2",4],"185":["b2",4],"186":["b2",4],"26":["b2",4],"187":["b2",4],"189":["b2",4],"190":["b2",4],"191":["b2",4],"151":["c1",4],"152":["c1",4],"153":["c1",3],"154":["c1",3],"155":["c1",3],"156":["c2",3],"157":["c2",3],"158":["c2",3],"159":["c2",3],"160":["c2",3]}};
-const CAT_TOTAL_TOPICS = {"en":{"a1":14,"a2":17,"b1":15,"b2":18,"c1":5,"c2":5}};
-const CAT_TOTAL_LESSONS = {"en":{"a1":117,"a2":124,"b1":109,"b2":72,"c1":17,"c2":15}};
-const LANG_TOTAL_TOPICS = {"en":74};
-const LANG_TOTAL_LESSONS = {"en":454};
+const TOPIC_META = {"en":{"34":["a1",5],"118":["a1",8],"101":["a1",9],"102":["a1",7],"103":["a1",9],"188":["a1",7],"108":["a1",9],"109":["a1",9],"106":["a1",8],"107":["a1",8],"110":["a1",13],"116":["a1",8],"104":["a1",8],"105":["a1",9],"113":["a2",9],"114":["a2",7],"115":["a2",8],"38":["a2",5],"112":["a2",8],"35":["a2",5],"36":["a2",5],"37":["a2",5],"117":["a2",8],"111":["a2",13],"120":["a2",8],"119":["a2",7],"121":["a2",8],"122":["a2",8],"123":["a2",8],"124":["a2",7],"40":["a2",5],"126":["b1",7],"39":["b1",5],"42":["b1",5],"128":["b1",8],"129":["b1",8],"41":["b1",5],"44":["b1",5],"45":["b1",5],"43":["b1",5],"130":["b1",8],"131":["b1",8],"132":["b1",8],"133":["b1",8],"125":["b1",16],"127":["b1",8],"177":["b2",4],"2":["b2",4],"1":["b2",4],"182":["b2",4],"3":["b2",4],"4":["b2",4],"183":["b2",4],"7":["b2",4],"5":["b2",4],"184":["b2",4],"21":["b2",4],"185":["b2",4],"186":["b2",4],"26":["b2",4],"187":["b2",4],"189":["b2",4],"190":["b2",4],"191":["b2",4],"192":["b2",4],"193":["b2",4],"194":["b2",4],"151":["c1",4],"152":["c1",4],"153":["c1",3],"154":["c1",3],"155":["c1",3],"156":["c2",3],"157":["c2",3],"158":["c2",3],"159":["c2",3],"160":["c2",3]}};
+const CAT_TOTAL_TOPICS = {"en":{"a1":14,"a2":17,"b1":15,"b2":21,"c1":5,"c2":5}};
+const CAT_TOTAL_LESSONS = {"en":{"a1":117,"a2":124,"b1":109,"b2":84,"c1":17,"c2":15}};
+const LANG_TOTAL_TOPICS = {"en":77};
+const LANG_TOTAL_LESSONS = {"en":466};
 let PICK_TAB = 'progress'; // 'progress' | 'schedule' | 'roadmap'
 let STUDY_PACE = 'schedule'; // 'schedule' | 'daily1' | 'daily2'
 let ROADMAP_LANG = ''; // '' (mặc định dùng S.lang) | 'all' | 'en' | 'zh' | 'ja'
@@ -1636,7 +1636,7 @@ const dayDate = (n) => new Date(n * 864e5);
 // Thứ tự ưu tiên: Tiếng Anh (cao nhất) > Tiếng Trung (nhì) > Tiếng Nhật (ba)
 const WEEKLY_SCHEDULE = {
   1: { name: 'Thứ Hai', focus: 'en', title: '🇬🇧 Thứ Hai: Từ vựng & Phản xạ Nghe', desc: 'Học 1 bài mới theo lộ trình CEFR + Ôn gói từ SRS', goals: { en: 1.0 } },
-  2: { name: 'Thứ Ba', focus: 'en', title: '🇬🇧 Thứ Ba: Nói & Giao tiếp Thương mại', desc: 'Học 1 bài mới + Luyện nói không giới hạn nâng % điểm', goals: { en: 1.0 } },
+  2: { name: 'Thứ Ba', focus: 'en', title: '🇬🇧 Thứ Ba: Nói & Giao tiếp Công việc B2', desc: 'Học 1 bài mới + Luyện nói không giới hạn nâng % điểm', goals: { en: 1.0 } },
   3: { name: 'Thứ Tư', focus: 'en', title: '🇬🇧 Thứ Tư: Đọc hiểu & Viết Email', desc: 'Học 1 bài mới + Hoàn thành mẫu email công việc', goals: { en: 1.0 } },
   4: { name: 'Thứ Năm', focus: 'en', title: '🇬🇧 Thứ Năm: Hội thoại dài & Nghe chép', desc: 'Học 1 bài mới + Luyện nghe hội thoại B1–C2 thực tế', goals: { en: 1.0 } },
   5: { name: 'Thứ Sáu', focus: 'en', title: '🇬🇧 Thứ Sáu: Kỹ năng & Luyện IELTS', desc: 'Học 1 bài mới + Thực hành đề IELTS 4 kỹ năng', goals: { en: 1.0 } },
@@ -3530,7 +3530,7 @@ function renderScheduleTabContent(t, sch) {
           )
         ),
         h('div', { class: 'panel', style: { background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '10px', padding: '10px' } },
-          h('b', { style: { fontSize: '.84rem', color: 'var(--amber)' } }, '⚡ Giai đoạn 2 (Tháng 4–6): Giao tiếp & Thương mại B1–B2'),
+          h('b', { style: { fontSize: '.84rem', color: 'var(--amber)' } }, '⚡ Giai đoạn 2 (Tháng 4–6): Giao tiếp & Công việc B1–B2'),
           h('p', { class: 'small muted', style: { margin: '4px 0 0 0', fontSize: '.76rem', lineHeight: 1.5 } },
             'Luyện nghe hội thoại dài B1–C2, Shadowing (nhại giọng), viết email công việc & chốt deal đơn hàng.'
           )
@@ -3622,7 +3622,7 @@ function renderRoadmapTabContent(t) {
               ? '🏁 Dự kiến hoàn thành Giáo trình Sơ cấp Minna & Giao tiếp (26 bài):'
               : (c === 'zh'
                 ? '🏁 Dự kiến hoàn thành Toàn bộ Giáo trình HSK 3.0 (290 bài):'
-                : '🏁 Dự kiến hoàn thành Toàn bộ Khóa học Tiếng Anh (74 bài):')
+                : '🏁 Dự kiến hoàn thành Toàn bộ Khóa học Tiếng Anh (77 bài):')
             ),
             h('b', { style: { color: p.remainingTopics === 0 ? 'var(--good)' : 'var(--teal)', fontSize: '.9rem' } }, estAll.timeText)
           ),
@@ -3855,7 +3855,7 @@ function welcomeView() {
     h('div', { class: 'stack' },
       h('p', { class: 'label' }, 'English Practice'),
       h('h1', {}, 'Học để nói được, mỗi ngày một chút'),
-      h('p', { class: 'muted' }, 'Học Tiếng Anh giao tiếp & thương mại từ A1 đến C2: bài học theo chủ đề, nghe hội thoại thực tế, luyện nói, viết email và đề IELTS 4 kỹ năng.'),
+      h('p', { class: 'muted' }, 'Học Tiếng Anh giao tiếp & công việc đa ngành từ A1 đến C2: bài học theo chủ đề, nghe hội thoại thực tế, luyện nói, viết email và đề IELTS 4 kỹ năng.'),
       had && h('p', { class: 'note' }, 'Đã có tiến độ cũ của bạn. Bạn sẽ học tiếp từ chỗ đã dừng.')),
     h('div', { style: { background: 'var(--sunk)', padding: '12px 14px', borderRadius: '14px', border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' } },
       h('div', { style: { minWidth: 0, flex: 1 } },
@@ -4143,7 +4143,7 @@ function homeView() {
       });
       return wrap;
     })(),
-    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.92 · Cập nhật 18/11/2026')));
+    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.93 · Cập nhật 18/11/2026')));
 }
 
 // ===== HỆ THỐNG LUYỆN THI IELTS 4 KỸ NĂNG (TIẾNG ANH) =====
@@ -15031,7 +15031,7 @@ function renderInterviewGuide() {
     h('div', { class: 'panel stack', style: { background: 'rgba(15, 82, 87, 0.08)', border: '1px solid var(--teal)', borderRadius: '12px', padding: '14px', gap: '6px' } },
       h('div', { class: 'row between wrap', style: { alignItems: 'center', gap: '6px' } },
         h('b', { style: { color: 'var(--teal)', fontSize: '1rem' } }, '🎯 Cẩm nang 26 câu hỏi phỏng vấn Remote Job & The Coach'),
-        h('span', { class: 'chip good' }, 'B2 Thương mại · 26 câu hỏi')
+        h('span', { class: 'chip good' }, 'B2 Trung cấp 2 · 26 câu hỏi')
       ),
       h('p', { class: 'small', style: { margin: 0, lineHeight: 1.5 } },
         'Trọn bộ câu hỏi và câu trả lời mẫu tiếng Anh phỏng vấn các vị trí làm việc từ xa: Account Management, Customer Success, Sales Coordination và Order Management. Bấm vào từng câu để xem câu trả lời chi tiết và bấm loa 🔊 để nghe phát âm mẫu!'
@@ -15453,7 +15453,7 @@ function renderKnowledgeGrammar(code) {
   const ZH_LV_BOOK = { 'HSK 1': '1 · Q1', 'HSK 2': '2 · Q2', 'HSK 3': '3 · Q3', 'HSK 4': '4 · Q4' };
   const LV_DESC = {
     A1: 'Cấu trúc nền tảng giao tiếp hàng ngày', A2: 'Mở rộng thì, so sánh và liên từ cơ bản',
-    B1: 'Câu phức, bị động và diễn đạt ý kiến', B2: 'Cấu trúc học thuật, thương mại & trang trọng', C1: 'Ngữ pháp nâng cao & sắc thái tinh tế',
+    B1: 'Câu phức, bị động và diễn đạt ý kiến', B2: 'Trung cấp 2 · Cấu trúc học thuật, công việc, thương mại & trang trọng', C1: 'Ngữ pháp nâng cao & sắc thái tinh tế',
     'HSK 1': 'Quyển 1 · Mẫu câu chào hỏi, số đếm & sở hữu', 'HSK 2': 'Quyển 2 · Thì hoàn thành, bổ ngữ & so sánh',
     'HSK 3': 'Quyển 3 · Câu chữ 把, 被 & bổ ngữ xu hướng', 'HSK 4': 'Quyển 4 · Liên từ logic & câu ghép trung cấp',
     N5: 'Sơ cấp 1 · Trợ từ, chia động từ thể ます/て/ない', N4: 'Sơ cấp 2 · Thể điều kiện, bị động, sai khiến & kính ngữ',

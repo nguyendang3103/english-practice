@@ -247,7 +247,7 @@ def main() -> None:
         "};",
         "const WEEKLY_SCHEDULE = {\n"
         "  1: { name: 'Thứ Hai', focus: 'en', title: '🇬🇧 Thứ Hai: Từ vựng & Phản xạ Nghe', desc: 'Học 1 bài mới theo lộ trình CEFR + Ôn gói từ SRS', goals: { en: 1.0 } },\n"
-        "  2: { name: 'Thứ Ba', focus: 'en', title: '🇬🇧 Thứ Ba: Nói & Giao tiếp Thương mại', desc: 'Học 1 bài mới + Luyện nói không giới hạn nâng % điểm', goals: { en: 1.0 } },\n"
+        "  2: { name: 'Thứ Ba', focus: 'en', title: '🇬🇧 Thứ Ba: Nói & Giao tiếp Công việc B2', desc: 'Học 1 bài mới + Luyện nói không giới hạn nâng % điểm', goals: { en: 1.0 } },\n"
         "  3: { name: 'Thứ Tư', focus: 'en', title: '🇬🇧 Thứ Tư: Đọc hiểu & Viết Email', desc: 'Học 1 bài mới + Hoàn thành mẫu email công việc', goals: { en: 1.0 } },\n"
         "  4: { name: 'Thứ Năm', focus: 'en', title: '🇬🇧 Thứ Năm: Hội thoại dài & Nghe chép', desc: 'Học 1 bài mới + Luyện nghe hội thoại B1–C2 thực tế', goals: { en: 1.0 } },\n"
         "  5: { name: 'Thứ Sáu', focus: 'en', title: '🇬🇧 Thứ Sáu: Kỹ năng & Luyện IELTS', desc: 'Học 1 bài mới + Thực hành đề IELTS 4 kỹ năng', goals: { en: 1.0 } },\n"
@@ -373,7 +373,7 @@ def main() -> None:
         "          )\n"
         "        ),\n"
         "        h('div', { class: 'panel', style: { background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: '10px', padding: '10px' } },\n"
-        "          h('b', { style: { fontSize: '.84rem', color: 'var(--amber)' } }, '⚡ Giai đoạn 2 (Tháng 4–6): Giao tiếp & Thương mại B1–B2'),\n"
+        "          h('b', { style: { fontSize: '.84rem', color: 'var(--amber)' } }, '⚡ Giai đoạn 2 (Tháng 4–6): Giao tiếp & Công việc B1–B2'),\n"
         "          h('p', { class: 'small muted', style: { margin: '4px 0 0 0', fontSize: '.76rem', lineHeight: 1.5 } },\n"
         "            'Luyện nghe hội thoại dài B1–C2, Shadowing (nhại giọng), viết email công việc & chốt deal đơn hàng.'\n"
         "          )\n"
@@ -452,7 +452,7 @@ def main() -> None:
         "      h('p', { class: 'muted' }, 'Ba thứ tiếng trong một app: bài học theo chủ đề, ôn tập đúng lúc, luyện nói và tập viết chữ Hán, kana.'),",
         "      h('p', { class: 'label' }, 'English Practice'),\n"
         "      h('h1', {}, 'Học để nói được, mỗi ngày một chút'),\n"
-        "      h('p', { class: 'muted' }, 'Học Tiếng Anh giao tiếp & thương mại từ A1 đến C2: bài học theo chủ đề, nghe hội thoại thực tế, luyện nói, viết email và đề IELTS 4 kỹ năng.'),",
+        "      h('p', { class: 'muted' }, 'Học Tiếng Anh giao tiếp & công việc đa ngành từ A1 đến C2: bài học theo chủ đề, nghe hội thoại thực tế, luyện nói, viết email và đề IELTS 4 kỹ năng.'),",
         label="welcome header",
     )
     html = replace_exact(
@@ -562,8 +562,8 @@ def main() -> None:
 
     # Sanity checks against copied en.json
     topic_count = len(en_data["topics"])
-    if topic_count != 74:
-        raise ValueError(f"Expected 74 topics in en.json, got {topic_count}")
+    if topic_count != 77:
+        raise ValueError(f"Expected 77 topics in en.json, got {topic_count}")
     if "English/" in html:
         leftovers = [line.strip() for line in html.splitlines() if "English/" in line]
         raise ValueError(f"Unconverted 'English/' path references remain: {leftovers[:5]}")
