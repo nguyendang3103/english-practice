@@ -562,8 +562,8 @@ def main() -> None:
 
     # Sanity checks against copied en.json
     topic_count = len(en_data["topics"])
-    if topic_count != 71:
-        raise ValueError(f"Expected 71 topics in en.json, got {topic_count}")
+    if topic_count != 74:
+        raise ValueError(f"Expected 74 topics in en.json, got {topic_count}")
     if "English/" in html:
         leftovers = [line.strip() for line in html.splitlines() if "English/" in line]
         raise ValueError(f"Unconverted 'English/' path references remain: {leftovers[:5]}")
