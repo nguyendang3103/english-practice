@@ -1159,7 +1159,7 @@ details.acc-group > .acc-body { background: var(--bg); padding: 10px 12px; gap: 
    Dữ liệu bài học nằm trong data/en.json và data/ielts_30day_listening.js,
    âm thanh thu sẵn nằm trong audio/ (audio/w*.json, audio/mail/, audio/listen/, audio/ielts/).
    ===================================================================== */
-const APP_BUILD_ID = '20261118-0600';
+const APP_BUILD_ID = '20261118-0700';
 const LANGS = {
   en: { label: 'English', vi: 'Tiếng Anh', short: 'Anh', folder: '', tts: 'en-US', rec: 'en-US', lang: 'en', cjk: false },
 };
@@ -1173,7 +1173,7 @@ const CATEGORIES = {
     { id: 'a1', name: 'Khởi động & Cơ bản', short: 'Sơ cấp 1', icon: '🐣', level: 'A1', count: '14 bài', desc: 'Chào hỏi, quốc gia, số đếm, màu sắc, gia đình, các hoạt động trong ngày, ăn uống, hoa quả, rau củ, quần áo, trường học, đồ dùng học tập, động vật' },
     { id: 'a2', name: 'Đời sống & Giao tiếp', short: 'Sơ cấp 2', icon: '🌿', level: 'A2', count: '17 bài', desc: 'Ngoại hình, cảm xúc, hành động cơ thể, nhà ở & việc nhà, nhà bếp, gọi món nhà hàng, mua sắm, hỏi đường, quê hương, thời tiết, thiên nhiên, lễ Tết, sở thích' },
     { id: 'b1', name: 'Trung cấp 1 · Đời sống xã hội', short: 'Trung cấp 1', icon: '🎨', level: 'B1', count: '15 bài', desc: 'Tính cách, sức khỏe, thể thao, bóng đá, thời trang, âm nhạc & phim ảnh, nghệ thuật, công nghệ, du lịch, bưu điện, ngân hàng, môi trường, quân đội, nghề nghiệp & công việc' },
-    { id: 'b2', name: 'Trung cấp 2 · Công việc & Ngành nghề', short: 'Trung cấp 2', icon: '💼', level: 'B2', count: '21 bài', desc: 'Các hoạt động công việc đa ngành: Thương mại, XNK & QC; Dịch vụ & CSKH; Du lịch & Khách sạn; Bảo hiểm; Sản xuất & Nhà máy; Xây dựng & Công trường; Bất động sản & Cho thuê…' },
+    { id: 'b2', name: 'Trung cấp 2 · Công việc & Ngành nghề', short: 'Trung cấp 2', icon: '💼', level: 'B2', count: '21 bài', desc: 'Phỏng vấn STAR, công ty & tiếp khách; Thương mại & Sản xuất (chào hàng, PO/Incoterms, nhà máy, bao bì, QC lỗi & Claim); Dịch vụ & CSKH; Du lịch & Khách sạn; Bảo hiểm; Xây dựng & Bất động sản…' },
     { id: 'c1', name: 'Cao cấp & Học thuật', short: 'Cao cấp', icon: '🏛️', level: 'C1', count: '5 bài', desc: 'Nghiên cứu học thuật, kinh tế vĩ mô toàn cầu, quản trị chiến lược M&A, khung pháp lý & IP, nghệ thuật tranh biện phản biện' },
     { id: 'c2', name: 'Thành thạo & Ngoại giao', short: 'Bậc thầy', icon: '👑', level: 'C2', count: '5 bài', desc: 'Quan hệ quốc tế & địa chính trị, triết học & nhận thức luận, nghệ thuật biên dịch, đạo đức AI tương lai, truyền thông khủng hoảng' },
     { id: 'all', name: 'Tất cả các chủ đề', short: 'Tất cả', icon: '📚', level: 'A1–C2', count: '77 bài', desc: 'Toàn bộ 77 bài học tiếng Anh phân loại chuẩn quốc tế theo 6 bậc CEFR từ A1 đến C2' }
@@ -1181,7 +1181,7 @@ const CATEGORIES = {
 };
 
 // ===== DỮ LIỆU ĐỊNH DANH BÀI HỌC, TIẾN ĐỘ & LỘ TRÌNH DỰ BÁO CÁN ĐÍCH =====
-const TOPIC_META = {"en":{"34":["a1",5],"118":["a1",8],"101":["a1",9],"102":["a1",7],"103":["a1",9],"188":["a1",7],"108":["a1",9],"109":["a1",9],"106":["a1",8],"107":["a1",8],"110":["a1",13],"116":["a1",8],"104":["a1",8],"105":["a1",9],"113":["a2",9],"114":["a2",7],"115":["a2",8],"38":["a2",5],"112":["a2",8],"35":["a2",5],"36":["a2",5],"37":["a2",5],"117":["a2",8],"111":["a2",13],"120":["a2",8],"119":["a2",7],"121":["a2",8],"122":["a2",8],"123":["a2",8],"124":["a2",7],"40":["a2",5],"126":["b1",7],"39":["b1",5],"42":["b1",5],"128":["b1",8],"129":["b1",8],"41":["b1",5],"44":["b1",5],"45":["b1",5],"43":["b1",5],"130":["b1",8],"131":["b1",8],"132":["b1",8],"133":["b1",8],"125":["b1",16],"127":["b1",8],"177":["b2",4],"2":["b2",4],"1":["b2",4],"182":["b2",4],"3":["b2",4],"4":["b2",4],"183":["b2",4],"7":["b2",4],"5":["b2",4],"184":["b2",4],"21":["b2",4],"185":["b2",4],"186":["b2",4],"26":["b2",4],"187":["b2",4],"189":["b2",4],"190":["b2",4],"191":["b2",4],"192":["b2",4],"193":["b2",4],"194":["b2",4],"151":["c1",4],"152":["c1",4],"153":["c1",3],"154":["c1",3],"155":["c1",3],"156":["c2",3],"157":["c2",3],"158":["c2",3],"159":["c2",3],"160":["c2",3]}};
+const TOPIC_META = {"en":{"34":["a1",5],"118":["a1",8],"101":["a1",9],"102":["a1",7],"103":["a1",9],"188":["a1",7],"108":["a1",9],"109":["a1",9],"106":["a1",8],"107":["a1",8],"110":["a1",13],"116":["a1",8],"104":["a1",8],"105":["a1",9],"113":["a2",9],"114":["a2",7],"115":["a2",8],"38":["a2",5],"112":["a2",8],"35":["a2",5],"36":["a2",5],"37":["a2",5],"117":["a2",8],"111":["a2",13],"120":["a2",8],"119":["a2",7],"121":["a2",8],"122":["a2",8],"123":["a2",8],"124":["a2",7],"40":["a2",5],"126":["b1",7],"39":["b1",5],"42":["b1",5],"128":["b1",8],"129":["b1",8],"41":["b1",5],"44":["b1",5],"45":["b1",5],"43":["b1",5],"130":["b1",8],"131":["b1",8],"132":["b1",8],"133":["b1",8],"125":["b1",16],"127":["b1",8],"177":["b2",4],"2":["b2",4],"1":["b2",4],"182":["b2",4],"3":["b2",4],"4":["b2",4],"183":["b2",4],"7":["b2",4],"5":["b2",4],"192":["b2",4],"184":["b2",4],"21":["b2",4],"185":["b2",4],"186":["b2",4],"26":["b2",4],"187":["b2",4],"189":["b2",4],"190":["b2",4],"191":["b2",4],"193":["b2",4],"194":["b2",4],"151":["c1",4],"152":["c1",4],"153":["c1",3],"154":["c1",3],"155":["c1",3],"156":["c2",3],"157":["c2",3],"158":["c2",3],"159":["c2",3],"160":["c2",3]}};
 const CAT_TOTAL_TOPICS = {"en":{"a1":14,"a2":17,"b1":15,"b2":21,"c1":5,"c2":5}};
 const CAT_TOTAL_LESSONS = {"en":{"a1":117,"a2":124,"b1":109,"b2":84,"c1":17,"c2":15}};
 const LANG_TOTAL_TOPICS = {"en":77};
@@ -4143,7 +4143,7 @@ function homeView() {
       });
       return wrap;
     })(),
-    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.93 · Cập nhật 18/11/2026')));
+    h('p', { class: 'small muted center', style: { margin: '24px 0 12px 0', fontSize: '.76rem', opacity: .65 } }, 'English Practice v3.94 · Cập nhật 18/11/2026')));
 }
 
 // ===== HỆ THỐNG LUYỆN THI IELTS 4 KỸ NĂNG (TIẾNG ANH) =====
